@@ -1,8 +1,7 @@
-package com.maxima.pocecommerce.utils;
+package com.maxima.pocecommerce.util;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.stream.Collectors;
 public class ObjectMapperUtils {
 
     private static ModelMapper modelMapper;
-
     /**
      * Model mapper property setting are specified in the following block.
      * Default property matching strategy is set to Strict see {@link MatchingStrategies}
