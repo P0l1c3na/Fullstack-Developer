@@ -16,8 +16,6 @@
         <app-calculo-valores [prod]="prod" (valorCalculado)="onProdutoCalculado($event)"></app-calculo-valores>
       </div>
     </mat-card>
-
-
     <div fxLayoutAlign="center" *ngIf="produtos.length === 0">
       <img src="assets/icones/imagem-carrinho-empty-state.png" alt="image">
     </div>

@@ -19,7 +19,16 @@ export class CarrinhoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.produtos = this.shoppingCartService.getProdutos();
+    this.shoppingCartService.getProdutos().subscribe(produtos => {
+        this.produtos = produtos;
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('Dados carregados');
+      }
+    );
     this.valorTotal.valorTotalDeItens = 0;
     this.valorTotal.quantidadeTotalDeItens = 0;
   }
@@ -51,7 +60,8 @@ export class CarrinhoComponent implements OnInit {
     valorTotal.quantidadeTotalDeItens = Number(valores.quantidade);
     this.produtosComValorCalculado.push(valorTotal);
     console.log(this.produtosComValorCalculado);
-    this.carrinhoDeCompras.emit({carrinho : this.produtosComValorCalculado});
+    this.carrinhoDeCompras.emit({carrinho: this.produtosComValorCalculado});
+    this.shoppingCartService.setProdutosSelecionados(this.produtosComValorCalculado);
   }
 
 }

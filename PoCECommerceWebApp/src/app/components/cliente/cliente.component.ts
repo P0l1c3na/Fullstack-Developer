@@ -56,7 +56,7 @@ export class ClienteComponent implements OnInit {
   }
 
   handleError() {
-    // this.alertService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.');
+    console.log('erro');
   }
   onSubmit() {
     this.selectedCliente = this.listClientes.find(x => x.nome === this.ClientesFormControl.value);
