@@ -16,6 +16,7 @@ export class ClienteComponent implements OnInit {
   options: string[] = [];
   listClientes: Cliente[] = [];
   clientes$: Observable<string[]>;
+  selectedCliente: any;
 
   @Output() clienteSelecionado = new EventEmitter();
 
@@ -58,8 +59,8 @@ export class ClienteComponent implements OnInit {
     // this.alertService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.');
   }
   onSubmit() {
-    const selectedCliente = this.listClientes.find(x => x.nome === this.ClientesFormControl.value);
-    this.clienteSelecionado.emit({cliente: selectedCliente});
-    console.log(selectedCliente);
+    this.selectedCliente = this.listClientes.find(x => x.nome === this.ClientesFormControl.value);
+    this.clienteSelecionado.emit({cliente: this.selectedCliente});
+    console.log(this.selectedCliente);
   }
 }

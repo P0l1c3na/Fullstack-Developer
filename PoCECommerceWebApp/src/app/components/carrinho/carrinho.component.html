@@ -6,22 +6,17 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <app-produto (produtoSelecionado)="onProdutoSelecionado($event)"></app-produto>
-    <mat-card *ngFor="let prod of produtos">
+    <app-produto (produtoSelecionado)="onProdutoSelecionado($event)" ></app-produto>
+    <mat-card *ngFor="let prod of produtos" class="item-shopping-cart">
       <div fxFlex="85">
         <mat-card-subtitle>{{prod.codigo}}</mat-card-subtitle>
         <mat-card-title>{{prod.nome}}</mat-card-title>
       </div>
       <div fxFlex="15">
-        <div fxFlex fxLayout="column">
-        <div fxLayout="row" fxLayoutAlign="end">
-          <input inline="true" fxFlex="15" type="text" [value]="quantidade">
-          <mat-label fxFlex="85"> X R$ {{prod.precoUnitario}},00</mat-label>
-        </div>
-          <mat-label><b>R$ Valor total</b></mat-label>
-      </div>
+        <app-calculo-valores [prod]="prod" (valorCalculado)="onProdutoCalculado($event)"></app-calculo-valores>
       </div>
     </mat-card>
+
 
     <div fxLayoutAlign="center" *ngIf="produtos.length === 0">
       <img src="assets/icones/imagem-carrinho-empty-state.png" alt="image">

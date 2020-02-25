@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
-import {Produto} from '../../models/produto';
+import {CarrinhoProduto} from '../../models/carrinho-produto';
+import {CarrinhoValores} from '../../models/carrinho-valores';
 
 @Component({
   selector: 'app-carrinho',
@@ -8,14 +9,19 @@ import {Produto} from '../../models/produto';
   styleUrls: ['./carrinho.component.css']
 })
 export class CarrinhoComponent implements OnInit {
-  produtos: Produto[] = [];
-  valorTotal: number;
-  quantidade = 1;
+  produtos: CarrinhoProduto[] = [];
+  valorTotal = new CarrinhoValores();
+  produtosComValorCalculado: CarrinhoValores[] = [];
 
-  constructor(protected shoppingCartService: ShoppingCartService) { }
+  @Output() carrinhoDeCompras = new EventEmitter();
+
+  constructor(protected shoppingCartService: ShoppingCartService) {
+  }
 
   ngOnInit() {
     this.produtos = this.shoppingCartService.getProdutos();
+    this.valorTotal.valorTotalDeItens = 0;
+    this.valorTotal.quantidadeTotalDeItens = 0;
   }
 
   onProdutoSelecionado(evento) {
@@ -23,9 +29,29 @@ export class CarrinhoComponent implements OnInit {
     console.log(evento);
   }
 
-  onCalcularQuantidae(produto){
-    this.valorTotal = this.quantidade * produto.valorUnitario;
+  onProdutoCalculado(valores) {
+    if (this.produtosComValorCalculado.length === 0) {
+      this.adicionarProduto(valores);
+    } else {
+      const valor = this.produtosComValorCalculado.find(x => x.codigoProduto === valores.codigo);
+      if (valor !== undefined) {
+        const newList = this.produtosComValorCalculado.filter(x => x.codigoProduto !== valor.codigoProduto);
+        this.produtosComValorCalculado = newList;
+        this.adicionarProduto(valores);
+      } else {
+        this.adicionarProduto(valores);
+      }
+    }
   }
 
+  adicionarProduto(valores) {
+    const valorTotal = new CarrinhoValores();
+    valorTotal.codigoProduto = valores.codigo;
+    valorTotal.valorTotalDeItens = Number(valores.valorTotal);
+    valorTotal.quantidadeTotalDeItens = Number(valores.quantidade);
+    this.produtosComValorCalculado.push(valorTotal);
+    console.log(this.produtosComValorCalculado);
+    this.carrinhoDeCompras.emit({carrinho : this.produtosComValorCalculado});
+  }
 
 }

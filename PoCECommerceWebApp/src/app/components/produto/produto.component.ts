@@ -12,7 +12,7 @@ import {ProdutoService} from '../../services/produto.service';
 })
 export class ProdutoComponent implements OnInit {
 
-
+  selectedProduto: any;
   produtoFormControl = new FormControl();
   options: string[] = [];
   listProdutos: Cliente[] = [];
@@ -59,8 +59,8 @@ export class ProdutoComponent implements OnInit {
     // this.alertService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.');
   }
   onSubmit() {
-    const selectedProduto = this.listProdutos.find(x => x.nome === this.produtoFormControl.value);
-    this.produtoSelecionado.emit({produto: selectedProduto});
-    console.log(selectedProduto);
+    this.selectedProduto = this.listProdutos.find(x => x.nome === this.produtoFormControl.value);
+    this.produtoSelecionado.emit({produto: this.selectedProduto });
+    console.log(this.selectedProduto );
   }
 }
