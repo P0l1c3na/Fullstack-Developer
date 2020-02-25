@@ -1,0 +1,16 @@
+    <form fxFlex class="client-form">
+      <mat-form-field fxFlex="50">
+        <mat-icon matSuffix  inline="false">search</mat-icon>
+        <input type="text"
+               placeholder="Selecione o produto"
+               aria-label="Produto"
+               matInput
+               [formControl]="produtoFormControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSubmit()">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>

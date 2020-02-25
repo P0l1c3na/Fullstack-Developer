@@ -2,7 +2,7 @@
   flex-direction: row;
 }
 
-.item {
+.spacer {
   margin-left: 50px;
   text-align: center;
   font-size: 0.8em;
