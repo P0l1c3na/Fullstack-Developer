@@ -1,4 +1,4 @@
-package com.maxima.pocecommerce.security;
+package com.maxima.poccalculofrete.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +15,6 @@ public class ConfigurationCors {
     public FilterRegistrationBean corsFilter() {
         var source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
-        config.addAllowedMethod(HttpMethod.PUT);
-        config.addAllowedMethod(HttpMethod.DELETE);
         config.addAllowedMethod(HttpMethod.POST);
         source.registerCorsConfiguration("/**", config);
         var bean = new FilterRegistrationBean(new CorsFilter(source));

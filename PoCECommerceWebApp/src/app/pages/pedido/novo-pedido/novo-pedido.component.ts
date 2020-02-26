@@ -26,9 +26,9 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
     this.pedido.numero = Math.floor(10000000 + Math.random() * 90000000);
   }
 
-  onClienteSelecionado(cliente) {
-    console.log(cliente);
-    this.pedido.clienteCodigo = cliente.codigo;
+  onClienteSelecionado(clienteSelecionado) {
+    console.log(clienteSelecionado.cliente);
+    this.pedido.cliente = clienteSelecionado.cliente;
   }
 
   onCarrinhoDeComprasPreenchido(produtosCarrinho) {
@@ -48,7 +48,11 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
     });
     this.valorItens = valorTotal;
     this.valorTotal = valorTotal;
+
     this.pedido.qtdItens = totalItens;
+    this.pedido.valorTotal = valorTotal;
+    this.pedido.valorFrete = 0;
+
     console.log('Valor TOtal: ' + this.valorTotal);
   }
 
@@ -68,8 +72,8 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
   }
 
   finalizarPedido() {
-    this.pedido.valorFrete = 0;
-    this.pedidoService.save(this.pedido);
+    console.log(this.pedido);
+    this.pedidoService.save(this.pedido).subscribe(dados => console.log(dados));
   }
 
 
