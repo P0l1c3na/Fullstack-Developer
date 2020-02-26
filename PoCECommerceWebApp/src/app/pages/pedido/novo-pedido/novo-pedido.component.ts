@@ -51,17 +51,17 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
       valorTotal += Number(valor.valorTotalDeItens);
       totalItens += Number(valor.quantidadeTotalDeItens);
     });
-    this.valorItens = valorTotal;
-    this.valorTotal = valorTotal;
 
-    this.pedido.qtdItens = totalItens;
-    this.pedido.valorTotal = valorTotal;
 
     this.calculoFreteService.calcularFrete({totalItens}).subscribe(
       value => {
         this.pedido.valorFrete = Number(value);
+        this.pedido.valorTotal = Number(valorTotal) + Number(this.pedido.valorFrete);
+        this.pedido.qtdItens = totalItens;
       }
     );
+    this.valorItens = valorTotal;
+    this.valorTotal = valorTotal + this.pedido.valorFrete;
 
     console.log('Valor TOtal: ' + this.valorTotal);
   }
