@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Produto} from '../models/produto';
 import {CarrinhoProduto} from '../models/carrinho-produto';
-import {Observable} from 'rxjs';
-import {CarrinhoValores} from "../models/carrinho-valores";
+import {Observable, BehaviorSubject, Subject} from 'rxjs';
+import {CarrinhoValores} from '../models/carrinho-valores';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,17 @@ export class ShoppingCartService {
   produtos: CarrinhoProduto[] = [];
   produtosSelecionados: CarrinhoValores[] = [];
 
+  keyStorage: any = 'produtos_carrinho';
+
+  private produtosSubject: BehaviorSubject<CarrinhoProduto[]>;
+
   constructor() {
+    const produtosSalvos: CarrinhoProduto[] = JSON.parse(localStorage.getItem(this.keyStorage)) || [];
+    this.produtosSubject = new BehaviorSubject<CarrinhoProduto[]>(produtosSalvos);
+
+    this.produtosSubject.subscribe((produtos) => {
+      localStorage.setItem(this.keyStorage, JSON.stringify(produtos));
+    });
   }
 
   addProduto(produto: CarrinhoProduto) {
@@ -19,21 +28,17 @@ export class ShoppingCartService {
     produto.valorTotal = produto.precoUnitario;
     if (!this.produtos.find(x => x.codigo === produto.codigo)) {
       this.produtos.push(produto);
+      this.produtosSubject.next(this.produtos);
     }
   }
 
   getProdutos() {
-    return new Observable<CarrinhoProduto[]>(observador => {
-      setTimeout(() => {
-        observador.next(this.produtos);
-      }, 2000);
-    });
+    return this.produtosSubject.asObservable();
   }
 
   limparProdutos() {
-    console.log(this.produtos);
     this.produtos = [];
-    console.log(this.produtos);
+    this.produtosSubject.next(this.produtos);
   }
 
   getProdutosSelecionados() {

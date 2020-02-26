@@ -43,7 +43,7 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
 
   calcularPrecoTotal(produtos: CarrinhoValores[]) {
     let valorTotal = 0;
-    let totalItens = 0
+    let totalItens = 0;
     this.shoppingCartService.getProdutosSelecionados().subscribe(valor => {
       produtos = valor;
     });
