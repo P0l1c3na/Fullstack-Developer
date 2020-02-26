@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://localhost:8080/PoCECommerce/api/'
+  api_url: 'http://localhost:8080/PoCECommerce/api/',
+  frete_api_url: 'http://localhost:8080/PoCCalculoFrete/api/'
 };
 
 

@@ -3,6 +3,8 @@ import {PedidoService} from '../../../services/pedido.service';
 import {ShoppingCartService} from '../../../services/shopping-cart.service';
 import {Pedido} from '../../../models/pedido';
 import {CarrinhoValores} from '../../../models/carrinho-valores';
+import {CalculoFreteService} from '../../../services/calculo-frete.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-novo-pedido',
@@ -11,15 +13,18 @@ import {CarrinhoValores} from '../../../models/carrinho-valores';
 })
 export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges {
   constructor(private pedidoService: PedidoService,
-              private shoppingCartService: ShoppingCartService
+              private shoppingCartService: ShoppingCartService,
+              private  calculoFreteService: CalculoFreteService,
+              private router: Router
   ) {
   }
 
   valorTotal: any;
-  frete: number;
   valorItens: number;
   pedido = new Pedido();
   produtos: CarrinhoValores[] = [];
+
+  erro = false;
 
 
   ngOnInit() {
@@ -51,7 +56,12 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
 
     this.pedido.qtdItens = totalItens;
     this.pedido.valorTotal = valorTotal;
-    this.pedido.valorFrete = 0;
+
+    this.calculoFreteService.calcularFrete({totalItens}).subscribe(
+      value => {
+        this.pedido.valorFrete = Number(value);
+      }
+    );
 
     console.log('Valor TOtal: ' + this.valorTotal);
   }
@@ -73,7 +83,12 @@ export class NovoPedidoComponent implements OnInit, AfterContentInit, OnChanges 
 
   finalizarPedido() {
     console.log(this.pedido);
-    this.pedidoService.save(this.pedido).subscribe(dados => console.log(dados));
+    if (this.pedido.cliente) {
+      this.pedidoService.save(this.pedido).subscribe(dados => console.log(dados));
+      this.router.navigate(['/consulta-pedido']);
+    } else {
+      this.erro = true;
+    }
   }
 
 

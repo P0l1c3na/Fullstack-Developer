@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatSortModule} from '@angular/material/sort';
 
 import {ToolbarComponent} from './components/toolbar/toolbar.component';
 import {NovoPedidoComponent} from './pages/pedido/novo-pedido/novo-pedido.component';
@@ -34,10 +35,13 @@ import {ProgressLoaderComponent} from './components/progress-loader/progress-loa
 import {LoaderInterceptor} from './services/loader.interceptor';
 import {CarrinhoComponent} from './components/carrinho/carrinho.component';
 import { CalculoValoresComponent } from './components/carrinho/calculo-valores.component';
+import {MatTableModule} from '@angular/material/table';
 
 import {LOCALE_ID} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+
+
 
 
 registerLocaleData(localePt);
@@ -75,7 +79,9 @@ registerLocaleData(localePt);
     HttpClientModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true},
